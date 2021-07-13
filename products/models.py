@@ -8,7 +8,7 @@ class Product(models.Model):
     price = models.IntegerField()
     code = models.IntegerField(unique=True)
     quantity = models.IntegerField()
-    is_availibe = models.BooleanField(default=True)
+    is_availible = models.BooleanField(default=True)
     updated = models.DateTimeField(auto_now_add=True)
     created = models.DateTimeField(auto_now=True)
 
