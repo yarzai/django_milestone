@@ -1,5 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from products.models import Product
+
+# List View
 
 
 def home(request):
@@ -10,10 +13,17 @@ def home(request):
     # return response
 
     # print(request.user.is_authenticated)
-    print(request.path)
+
+    products = Product.objects.all()
+
+    # for product in products:
+    #     print(product)
+
+    # print(request.path)
 
     context = {
-        "title": "How are you"
+        "title": "How are you",
+        "products": products
     }
 
     return render(request, "index.html", context)

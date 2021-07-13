@@ -7,6 +7,16 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>{{title}}</h1>
+    <div>
+      {% for product in products %}
+      <div>
+        <p>{{product.name}}</p>
+        <p>{{product.price}}</p>
+        <p>{{product.code}}</p>
+        <p>{{product.quantity}}</p>
+        <p>{{product.created}}</p>
+      </div>
+      {% endfor %}
+    </div>
   </body>
 </html>
