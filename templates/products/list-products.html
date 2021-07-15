@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Products</title>
+{% endblock title %}
+
+{% block content %}
+    <div style="display: flex; flex-wrap: wrap; justify-content: center">
+      {% for product in products %}
+      <div class="card" style="width: 18rem; margin: 1rem; min-width: 350px">
+        <img src="..." class="card-img-top" alt="..." />
+        <div class="card-body">
+          <h5 class="card-title">Name: {{product.name}}</h5>
+          <p class="card-text">Price: {{product.price}}</p>
+          <p class="card-text">Code: {{product.code}}</p>
+          <p class="card-text">Quantity: {{product.quantity}}</p>
+          <p class="card-text">Time Stamp: {{product.created}}</p>
+          <a
+            href="{% url 'products:delete-product' product.id %}"
+            class="btn btn-danger"
+            >Delete</a
+          >
+          <a
+            href="{% url 'products:update-product' product.id %}"
+            class="btn btn-warning"
+            >Update</a
+          >
+          <!-- <a href="/products/delete/{{product.id}}/" class="btn btn-danger"
+            >Delete</a
+          > -->
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+{% endblock content%}

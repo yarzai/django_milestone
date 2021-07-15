@@ -3,10 +3,14 @@ from django.shortcuts import redirect, render, HttpResponseRedirect
 from products.models import Product
 from django.urls import reverse_lazy
 
+
+def home(request):
+    return HttpResponseRedirect(reverse_lazy("products:list-product"))
+
 # List View
 
 
-def home(request):
+def products_list(request):
     # response = HttpResponse()
     # response.content = "How are you"
     # response.headers["age"] = 25
@@ -27,15 +31,14 @@ def home(request):
         "products": products
     }
 
-    return render(request, "index.html", context)
+    return render(request, "products/list-products.html", context)
 
 
 # Create View
 def create_product(request):
     if request.method == "GET":
-        return render(request, "create-product.html")
+        return render(request, "products/create-product.html")
 
-    print(request.POST)
     name = request.POST.get("name")
     price = request.POST.get("price")
     code = request.POST.get("code")
@@ -51,6 +54,30 @@ def create_product(request):
                                      quantity=quantity, is_availible=is_availible)
     product.save()
 
-    print(reverse_lazy("products:list-product"))
+    return HttpResponseRedirect(reverse_lazy("products:list-product"))
 
+# Delete View
+
+
+def delete_product(request, pro_id):
+    product = Product.objects.get(id=pro_id)
+    product.delete()
+    return HttpResponseRedirect(reverse_lazy("products:list-product"))
+
+
+def update_product(request, pro_id):
+    product = Product.objects.get(id=pro_id)
+    if request.method == "GET":
+        return render(request, "products/update-product.html", {"product": product})
+
+    product.name = request.POST.get("name")
+    product.price = request.POST.get("price")
+    product.code = request.POST.get("code")
+    product.quantity = request.POST.get("quantity")
+    if request.POST.get("is_availible"):
+        product.is_availible = True
+    else:
+        product.is_availible = False
+
+    product.save()
     return HttpResponseRedirect(reverse_lazy("products:list-product"))

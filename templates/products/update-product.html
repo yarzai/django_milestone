@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="margin-top: 1rem">
+    <h2 style="text-align: center">Edit Product</h2>
+    <div class="container">
+      <form method="POST" action="{% url 'products:update-product' product.id %}">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label">Name:</label>
+          <input type="text" class="form-control" required name="name" value="{{product.name}}"/>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Price:</label>
+          <input type="number" class="form-control" required name="price" value="{{product.price}}" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Code:</label>
+          <input type="number" class="form-control" required name="code" value="{{product.code}}" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Quantity:</label>
+          <input
+            type="number"
+            class="form-control"
+            required
+            name="quantity"
+            value="{{product.quantity}}"
+          />
+        </div>
+
+        <div class="mb-3 form-check">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="exampleCheck1"
+            name="is_availible"
+            {% if product.is_availible %}
+            checked
+            {% endif %}
+          />
+          <label class="form-check-label" for="exampleCheck1"
+            >Is Availible</label
+          >
+        </div>
+        <button type="submit" class="btn btn-success">Update</button>
+      </form>
+    </div>
+  </div>
+{% endblock content %}
