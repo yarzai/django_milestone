@@ -9,6 +9,7 @@ class Product(models.Model):
     code = models.IntegerField(unique=True)
     quantity = models.IntegerField()
     is_availible = models.BooleanField(default=True)
+    image = models.ImageField(upload_to="products", null=True, blank=True)
     updated = models.DateTimeField(auto_now_add=True)
     created = models.DateTimeField(auto_now=True)
 

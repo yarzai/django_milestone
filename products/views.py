@@ -67,6 +67,9 @@ def delete_product(request, pro_id):
 
 def update_product(request, pro_id):
     product = Product.objects.get(id=pro_id)
+    # products = Product.objects.filter(id=pro_id)
+
+    # products.update(name="dfds", code=15)
     if request.method == "GET":
         return render(request, "products/update-product.html", {"product": product})
 
