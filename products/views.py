@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from products.models import Product
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 
 def home(request):
@@ -19,7 +20,11 @@ def products_list(request):
 
     # print(request.user.is_authenticated)
 
-    products = Product.objects.all()
+    products = Product.objects.filter(
+        Q(is_availible=True) &
+        Q(id=9) |
+        Q(name="hp")
+    )
 
     # for product in products:
     #     print(product)
@@ -60,7 +65,7 @@ def create_product(request):
 
 
 def delete_product(request, pro_id):
-    product = Product.objects.get(id=pro_id)
+    product = Product.objects.get(id=pro_id, name="Hp")
     product.delete()
     return HttpResponseRedirect(reverse_lazy("products:list-product"))
 
