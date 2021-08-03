@@ -1,9 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
-from django.db.models.signals import pre_save, post_save
-from django.utils.timesince import timesince
-
 
 # Create your models here.
 
@@ -25,34 +22,28 @@ def validate_name(value):
 class Product(models.Model):
     # name = models.CharField(max_length=150, validators=[validate_name])
     name = models.CharField(max_length=150)
-    price = models.IntegerField(verbose_name="Product Price")
+    price = models.IntegerField()
     code = models.IntegerField(unique=True, error_messages={
         "unique": "please enter another code.",
         "blank": "please fill the field."
-    },
-    help_text="enter a unique value")
+    })
     quantity = models.IntegerField()
     is_availible = models.BooleanField(default=True)
     image = models.ImageField(upload_to="products", null=True, blank=True)
     category = models.CharField(max_length=150, choices=CATEGORIES)
-    updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now=True)
     # email = models.EmailField()
     slug = models.SlugField(null=True, blank=True)
-
-    @property
-    def added_on(self):
-        return timesince(self.created) + " ago"
 
     def __str__(self):
         return self.name + " - " + str(self.code)
 
     def save(self, *args, **kwargs):
-        
-        # if not self.slug:
-        #     self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
         print("save method was called")
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         db_table = 'products'
@@ -60,23 +51,3 @@ class Product(models.Model):
         # verbose_name = 'product1'
         # verbose_name_plural = "product2"
         # unique_together = ["name" ,"price"]
-
-
-def product_pre_save_receiver(sender, instance, *args, **kwargs):
-    print("pre save")
-    # print("sender:", sender)
-    # if not instance.slug:
-    #     instance.slug = slugify(instance.name)
-
-
-pre_save.connect(product_pre_save_receiver, sender=Product)
-
-
-def product_post_save_receiver(sender, instance, created, *args, **kwargs):
-    print("post save")
-    if created:
-        if not instance.slug:
-            instance.slug = slugify(instance.name)
-            instance.save()
-
-post_save.connect(product_post_save_receiver, sender=Product)

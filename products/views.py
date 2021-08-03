@@ -20,11 +20,7 @@ def products_list(request):
 
     # print(request.user.is_authenticated)
 
-    products = Product.objects.filter(
-        Q(is_availible=True) &
-        Q(id=9) |
-        Q(name="hp")
-    )
+    products = Product.objects.all()
 
     # for product in products:
     #     print(product)

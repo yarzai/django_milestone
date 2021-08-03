@@ -17,6 +17,7 @@
           <p class="card-text">Code: {{product.code}}</p>
           <p class="card-text">Quantity: {{product.quantity}}</p>
           <p class="card-text">Time Stamp: {{product.created}}</p>
+          <p class="card-text">Added On: {{product.added_on}}</p>
           <a
             href="{% url 'products:delete-product' product.id %}"
             class="btn btn-danger"
