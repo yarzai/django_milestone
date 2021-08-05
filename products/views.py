@@ -3,6 +3,12 @@ from django.shortcuts import redirect, render, HttpResponseRedirect
 from products.models import Product
 from django.urls import reverse_lazy
 from django.db.models import Q
+from django.views.generic.base import TemplateView
+
+from django.views.generic.base import TemplateResponseMixin
+from django.views.generic.base import View
+from django.views.generic.list import ListView
+
 
 
 def home(request):
@@ -12,28 +18,29 @@ def home(request):
 
 
 def products_list(request):
-    # response = HttpResponse()
-    # response.content = "How are you"
-    # response.headers["age"] = 25
-
-    # return response
-
-    # print(request.user.is_authenticated)
-
     products = Product.objects.all()
-
-    # for product in products:
-    #     print(product)
-
-    # print(request.path)
-
     context = {
         "title": "How are you",
         "products": products
     }
-
     return render(request, "products/list-products.html", context)
 
+class ProductListView(ListView):
+    model = Product
+    template_name = 'products/list-products.html'
+    context_object_name = "products"
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["title"] = "I am fine"
+    #     return context
+    
+
+
+class Test(TemplateView):
+    template_name = "test.html"
+    extra_context = {"title": "How are you"}
+    
 
 # Create View
 def create_product(request):

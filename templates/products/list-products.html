@@ -5,7 +5,9 @@
 {% endblock title %}
 
 {% block content %}
+{% include 'partials/_navbar.html'  %}
     <div style="display: flex; flex-wrap: wrap; justify-content: center">
+      {{title}}
       {% for product in products %}
       <div class="card" style="width: 18rem; margin: 1rem; min-width: 350px">
         {% if product.image %}
