@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'partials/_navbar.html' %}
+
+<h1>Name: {{product.name}}</h1>
+<p>Price: {{product.price}}$</p>
+<p>Code: {{product.code}}</p>
+<p>Quantity: {{product.quantity}}</p>
+<p>Category: {{product.category}}</p>
+<p>Added On: {{product.added_on}}</p>
+
+{% endblock content %}

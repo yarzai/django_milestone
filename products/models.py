@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from django.db.models.signals import pre_save, post_save
 from django.utils.timesince import timesince
+from django.urls import reverse
 
 
 # Create your models here.
@@ -46,6 +47,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name + " - " + str(self.code)
+    
+    def get_absolute_url(self):
+        return reverse("products:detail-product", kwargs={"product_slug": self.slug})
+    
 
     def save(self, *args, **kwargs):
         

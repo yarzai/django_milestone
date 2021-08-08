@@ -9,6 +9,8 @@ from django.views.generic.base import TemplateResponseMixin
 from django.views.generic.base import View
 from django.views.generic.list import ListView
 
+from django.views.generic.edit import CreateView
+
 
 
 def home(request):
@@ -17,18 +19,19 @@ def home(request):
 # List View
 
 
-def products_list(request):
-    products = Product.objects.all()
-    context = {
-        "title": "How are you",
-        "products": products
-    }
-    return render(request, "products/list-products.html", context)
+# def products_list(request):
+#     products = Product.objects.all()
+#     context = {
+#         "title": "How are you",
+#         "products": products
+#     }
+#     return render(request, "products/list-products.html", context)
 
 class ProductListView(ListView):
     model = Product
     template_name = 'products/list-products.html'
     context_object_name = "products"
+    # queryset = Product.objects.filter()
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -36,6 +39,9 @@ class ProductListView(ListView):
     #     return context
     
 
+class TestView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "test.html")
 
 class Test(TemplateView):
     template_name = "test.html"
@@ -63,6 +69,14 @@ def create_product(request):
     product.save()
 
     return HttpResponseRedirect(reverse_lazy("products:list-product"))
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    fields = '__all__'
+    template_name = "products/create.html"
+    
+
 
 # Delete View
 
@@ -92,3 +106,10 @@ def update_product(request, pro_id):
 
     product.save()
     return HttpResponseRedirect(reverse_lazy("products:list-product"))
+
+# DetailView
+
+def product_detail(request, product_slug):
+    product = Product.objects.get(slug=product_slug)
+
+    return render(request, "products/product_detail.html", {"product": product})
