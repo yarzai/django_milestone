@@ -22,6 +22,20 @@ def validate_name(value):
     # print("Hi")
     raise ValidationError("name does not have @.")
 
+class ProductQuerySet(models.query.QuerySet):
+    # def count(self):
+    #     return super().count() + 5
+    
+    def is_availible(self):
+        return self.filter(is_availible=True)
+
+class ProductModelManager(models.Manager):
+    def get_queryset(self):
+        return ProductQuerySet(self.model, using=self._db)
+    # def all(self):
+    #     print("ALL")
+    #     return super().all().filter(is_availible=True)
+
 
 class Product(models.Model):
     # name = models.CharField(max_length=150, validators=[validate_name])
@@ -40,6 +54,10 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     # email = models.EmailField()
     slug = models.SlugField(null=True, blank=True)
+
+    objects = ProductModelManager()
+    # products = ProductModelManager()
+
 
     @property
     def added_on(self):

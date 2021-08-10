@@ -12,6 +12,8 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
 
 
+TEST = 5
+
 
 def home(request):
     return HttpResponseRedirect(reverse_lazy("products:list-product"))
@@ -19,18 +21,20 @@ def home(request):
 # List View
 
 
-# def products_list(request):
-#     products = Product.objects.all()
-#     context = {
-#         "title": "How are you",
-#         "products": products
-#     }
-#     return render(request, "products/list-products.html", context)
+def products_list(request):
+    products = Product.objects.all().is_availible()
+   
+    print(products.count())
+    context = {
+        # "title": "How are you",
+        "products": products
+    }
+    return render(request, "products/list-products.html", context)
 
-class ProductListView(ListView):
-    model = Product
-    template_name = 'products/list-products.html'
-    context_object_name = "products"
+# class ProductListView(ListView):
+#     model = Product
+#     template_name = 'products/list-products.html'
+#     context_object_name = "products"
     # queryset = Product.objects.filter()
 
     # def get_context_data(self, **kwargs):
@@ -82,7 +86,7 @@ class ProductCreateView(CreateView):
 
 
 def delete_product(request, pro_id):
-    product = Product.objects.get(id=pro_id, name="Hp")
+    product = Product.objects.get(id=pro_id)
     product.delete()
     return HttpResponseRedirect(reverse_lazy("products:list-product"))
 

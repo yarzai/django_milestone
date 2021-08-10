@@ -10,7 +10,7 @@ class ProductAdmin(admin.ModelAdmin):
                     "quantity", "is_availible", "updated", "created"]
     list_filter = ["price", "is_availible", "name"]
     search_fields = ["price", "name", "code"]
-    list_per_page = 2
+    # list_per_page = 2
     list_editable = ["is_availible", "code"]
     # save_as_continue = False
 

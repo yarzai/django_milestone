@@ -6,8 +6,8 @@ from django.views.generic.base import TemplateView
 # from .views import home
 from .views import  (create_product,
  delete_product, update_product, 
- TestView, ProductListView, ProductCreateView,
- product_detail)
+ TestView, ProductCreateView,
+ product_detail, products_list)
 
 
 app_name = "products"
@@ -15,7 +15,7 @@ app_name = "products"
 # domain.com/products
 urlpatterns = [
     # path("", products_list, name="list-product"),
-    path("", ProductListView.as_view(), name="list-product"),
+    path("", products_list, name="list-product"),
     # path("create/", create_product, name="create-product"),
     path("create/", ProductCreateView.as_view(), name="create-product"),
     path("delete/<int:pro_id>/", delete_product, name="delete-product"),
