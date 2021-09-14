@@ -1,5 +1,5 @@
-from django.http import HttpResponse
-from django.shortcuts import redirect, render, HttpResponseRedirect
+from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404, redirect, render, HttpResponseRedirect, get_object_or_404
 from products.models import Product
 from django.urls import reverse_lazy
 from django.db.models import Q
@@ -10,6 +10,9 @@ from django.views.generic.base import View
 from django.views.generic.list import ListView
 
 from django.views.generic.edit import CreateView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib import messages
 
 
 TEST = 5
@@ -21,15 +24,19 @@ def home(request):
 # List View
 
 
+# @login_required(login_url='/admin/login/')
 def products_list(request):
+    # if request.user.is_authenticated:
     products = Product.objects.all().is_availible()
-   
+
     print(products.count())
     context = {
         # "title": "How are you",
         "products": products
     }
     return render(request, "products/list-products.html", context)
+
+    # raise Http404
 
 # class ProductListView(ListView):
 #     model = Product
@@ -41,16 +48,24 @@ def products_list(request):
     #     context = super().get_context_data(**kwargs)
     #     context["title"] = "I am fine"
     #     return context
-    
+
 
 class TestView(View):
     def get(self, request, *args, **kwargs):
         return render(request, "test.html")
 
+
+# @login_required(login_url='/admin/login/')
+@method_decorator(login_required(login_url='/admin/login/'), name='dispatch')
 class Test(TemplateView):
     template_name = "test.html"
     extra_context = {"title": "How are you"}
-    
+
+    # @method_decorator(login_required)
+    # def dispatch(self, *args, **kwargs):
+    #     print("Test")
+    #     return super().dispatch(*args, **kwargs)
+
 
 # Create View
 def create_product(request):
@@ -79,7 +94,6 @@ class ProductCreateView(CreateView):
     model = Product
     fields = '__all__'
     template_name = "products/create.html"
-    
 
 
 # Delete View
@@ -109,11 +123,22 @@ def update_product(request, pro_id):
         product.is_availible = False
 
     product.save()
+    messages.success(request, "Product have been updated successfully.")
+    messages.error(request, "Product have not been updated successfully.")
     return HttpResponseRedirect(reverse_lazy("products:list-product"))
 
 # DetailView
 
+
 def product_detail(request, product_slug):
-    product = Product.objects.get(slug=product_slug)
+
+    try:
+        product = Product.objects.get(slug=product_slug)
+    except Product.DoesNotExist:
+        raise Http404
+    except Product.MultipleObjectsReturned:
+        product = Product.objects.filter(slug=product_slug).first()
+
+    # product = get_object_or_404(Product, slug=product_slug)
 
     return render(request, "products/product_detail.html", {"product": product})
