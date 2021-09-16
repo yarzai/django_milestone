@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render, HttpResponseRedirect, get_object_or_404
-from products.models import Product
+from products.models import Product, ProductModelManager
 from django.urls import reverse_lazy
 from django.db.models import Q
 from django.views.generic.base import TemplateView
@@ -13,7 +13,9 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
-
+from exercise.forms import ProductModalForm, TestForm
+from django.views.generic.edit import FormMixin, ModelFormMixin
+from django.views.generic.base import ContextMixin
 
 TEST = 5
 
@@ -55,10 +57,20 @@ class TestView(View):
         return render(request, "test.html")
 
 
+class CustomModelFormMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        print(context)
+        return context
+
+
 # @login_required(login_url='/admin/login/')
-@method_decorator(login_required(login_url='/admin/login/'), name='dispatch')
-class Test(TemplateView):
+# @method_decorator(login_required(login_url='/admin/login/'), name='dispatch')
+class Hell(ModelFormMixin, CustomModelFormMixin, TemplateView):
     template_name = "test.html"
+    model = Product
+    fields = '__all__'
     extra_context = {"title": "How are you"}
 
     # @method_decorator(login_required)
@@ -122,7 +134,7 @@ def update_product(request, pro_id):
     else:
         product.is_availible = False
 
-    product.save()
+    # product.save()
     messages.success(request, "Product have been updated successfully.")
     messages.error(request, "Product have not been updated successfully.")
     return HttpResponseRedirect(reverse_lazy("products:list-product"))

@@ -22,12 +22,14 @@ def validate_name(value):
     # print("Hi")
     raise ValidationError("name does not have @.")
 
+
 class ProductQuerySet(models.query.QuerySet):
     # def count(self):
     #     return super().count() + 5
-    
+
     def is_availible(self):
         return self.filter(is_availible=True)
+
 
 class ProductModelManager(models.Manager):
     def get_queryset(self):
@@ -45,7 +47,7 @@ class Product(models.Model):
         "unique": "please enter another code.",
         "blank": "please fill the field."
     },
-    help_text="enter a unique value")
+        help_text="enter a unique value")
     quantity = models.IntegerField()
     is_availible = models.BooleanField(default=True)
     image = models.ImageField(upload_to="products", null=True, blank=True)
@@ -58,20 +60,18 @@ class Product(models.Model):
     objects = ProductModelManager()
     # products = ProductModelManager()
 
-
     @property
     def added_on(self):
         return timesince(self.created) + " ago"
 
     def __str__(self):
         return self.name + " - " + str(self.code)
-    
+
     def get_absolute_url(self):
         return reverse("products:detail-product", kwargs={"product_slug": self.slug})
-    
 
     def save(self, *args, **kwargs):
-        
+
         # if not self.slug:
         #     self.slug = slugify(self.name)
         super().save(*args, **kwargs)
@@ -101,5 +101,6 @@ def product_post_save_receiver(sender, instance, created, *args, **kwargs):
         if not instance.slug:
             instance.slug = slugify(instance.name)
             instance.save()
+
 
 post_save.connect(product_post_save_receiver, sender=Product)
