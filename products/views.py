@@ -33,7 +33,7 @@ def products_list(request):
 
     print(products.count())
     context = {
-        # "title": "How are you",
+        "title": "How are you",
         "products": products
     }
     return render(request, "products/list-products.html", context)
