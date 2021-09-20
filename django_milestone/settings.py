@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "products",
-    'exercise'
+    'exercise',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -80,11 +81,14 @@ WSGI_APPLICATION = 'django_milestone.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_milestone',
+        'NAME': 'd_m',
         "USER": "postgres",
         "PASSWORD": "postgres"
-    }
+    },
+
 }
+
+AUTH_USER_MODEL = 'accounts.Account'
 
 
 # Password validation
