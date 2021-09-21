@@ -26,7 +26,7 @@ def home(request):
 # List View
 
 
-# @login_required(login_url='/admin/login/')
+@login_required
 def products_list(request):
     # if request.user.is_authenticated:
     products = Product.objects.all().is_availible()

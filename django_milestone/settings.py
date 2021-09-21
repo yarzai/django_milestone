@@ -89,6 +89,7 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = 'accounts.Account'
+LOGIN_URL = '/accounts/login/'
 
 
 # Password validation

@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block title %}
+<title>Products</title>
+{% endblock title %} {% block content %} {% include 'partials/_navbar.html' %}
+{% if messages %} {% include 'partials/_messages.html'%} {% endif %}
+<p style="width: 300px">{{title|cut:" "}}</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center">
+  {% for product in products %}
+  <div class="card" style="width: 18rem; margin: 1rem; min-width: 350px">
+    {% if product.image %}
+    <img src="{{product.image.url}}" class="card-img-top" alt="..." />
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">Name: {{product.name}}</h5>
+      <p class="card-text {% cycle 'red' 'green' 'yellow' %}">
+        Price: {{ product.price|add:"10"|add:"20" }}
+      </p>
+      <p class="card-text">Code: {{product.code}}</p>
+      <p class="card-text">Quantity: {{product.quantity}}</p>
+      <p class="card-text">Time Stamp: {{product.created|date:"Y"}}</p>
+      <p class="card-text">Added On: {{product.added_on}}</p>
+      <a
+        href="{% url 'products:delete-product' product.id %}"
+        class="btn btn-danger"
+        >Delete</a
+      >
+      <a
+        href="{% url 'products:update-product' product.id %}"
+        class="btn btn-warning"
+        >Update</a
+      >
+      <a href="{{product.get_absolute_url}}" class="btn btn-info">Detail</a>
+      <!-- <a href="/products/delete/{{product.id}}/" class="btn btn-danger"
+            >Delete</a
+          > -->
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content%}

@@ -7,8 +7,9 @@ from accounts.models import Account
 
 class AccountAdmin(BaseUserAdmin):
     fieldsets = [
-        (None, {"fields": ["email", 'age',
-         'name', 'user_type', 'is_superuser', 'is_active', 'is_staff']})
+        ("Personal Info", {"fields": ["email", 'password', 'age',
+         'name', 'user_type', 'is_superuser', 'is_active', 'is_staff']}),
+        ("User Permission", {'fields': ["user_permissions"]})
     ]
 
     add_fieldsets = [

@@ -13,7 +13,7 @@ TYPES = [
 
 
 class AccountManager(BaseUserManager):
-    def create_user(self, email, name, user_type, password=None):
+    def create_user(self, email, name, user_type, age=12, password=None):
         """ Create a new user profile """
         if not email:
             raise ValueError("User must have an Email")
@@ -21,6 +21,7 @@ class AccountManager(BaseUserManager):
         user = self.model(email=email, name=name)
         user.set_password(password)
         user.user_type = user_type
+        user.age = age
         user.save(using=self._db)
         return user
 

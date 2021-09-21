@@ -1,0 +1,89 @@
+{% extends 'base.html' %} {% block content %}
+<h1 style="text-align: center">Register</h1>
+{% include 'partials/_messages.html' %}
+<div style="display: flex; justify-content: center; align-items: center">
+  <form action="{% url 'accounts:register' %}" method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label"
+        >Email address</label
+      >
+      <input
+        type="email"
+        class="form-control"
+        id="exampleFormControlInput1"
+        placeholder="Enter your email"
+        style="width: 350px"
+        name="email"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="exampleFormControlTextarea1" class="form-label"
+        >Password</label
+      >
+      <input
+        type="password"
+        class="form-control"
+        id="exampleFormControlTextarea1"
+        placeholder="Enter your password"
+        name="password1"
+        required
+      />
+    </div>
+    <div class="mb-3">
+
+      <label for="exampleFormControlTextarea1" class="form-label"
+        >Confirm Password</label
+      >
+      <input
+        type="password"
+        class="form-control"
+        id="exampleFormControlTextarea1"
+        placeholder="Enter your password again"
+        name="password2"
+        required
+
+      />
+    </div>
+    <div class="mb-3">
+
+      <label for="exampleFormControlInput1" class="form-label"
+        >Name</label
+      >
+      <input
+        type="text"
+        class="form-control"
+        id="exampleFormControlInput1"
+        placeholder="Enter your name"
+        style="width: 350px"
+        name="name"
+        required
+
+      />
+      </div>
+    <div class="mb-3">
+
+      <label for="exampleFormControlInput1" class="form-label"
+        >Age</label
+      >
+      <input
+        type="number"
+        class="form-control"
+        id="exampleFormControlInput1"
+        placeholder="Enter your age"
+        style="width: 350px"
+        name="age"
+      />
+      </div>
+      <input
+        type="submit"
+        value="Register"
+        class="btn btn-success"
+        style="margin-top: 1rem"
+      />
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

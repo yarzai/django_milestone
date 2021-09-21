@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% block content %}
+<h1 style="text-align: center">Login</h1>
+{% include 'partials/_messages.html' %}
+<div style="display: flex; justify-content: center; align-items: center">
+  <form action="{% url 'accounts:login' %}" method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label"
+        >Email address</label
+      >
+      <input
+        type="email"
+        class="form-control"
+        id="exampleFormControlInput1"
+        placeholder="Enter you email"
+        style="width: 350px"
+        name="email"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="exampleFormControlTextarea1" class="form-label"
+        >Password</label
+      >
+      <input
+        type="password"
+        class="form-control"
+        id="exampleFormControlTextarea1"
+        placeholder="Enter your password"
+        name="password"
+        required
+      />
+      <input
+        type="submit"
+        value="Login"
+        class="btn btn-success"
+        style="margin-top: 1rem"
+      />
+    </div>
+  </form>
+</div>
+
+{% endblock content %}
