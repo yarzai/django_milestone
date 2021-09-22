@@ -26,7 +26,7 @@ def home(request):
 # List View
 
 
-@login_required
+# @login_required
 def products_list(request):
     # if request.user.is_authenticated:
     products = Product.objects.all().is_availible()
@@ -80,6 +80,7 @@ class Hell(ModelFormMixin, CustomModelFormMixin, TemplateView):
 
 
 # Create View
+@login_required
 def create_product(request):
     if request.method == "GET":
         return render(request, "products/create-product.html")
@@ -96,7 +97,7 @@ def create_product(request):
         is_availible = False
 
     product = Product.objects.create(name=name, price=price, code=code,
-                                     quantity=quantity, is_availible=is_availible)
+                                     quantity=quantity, is_availible=is_availible, user=request.user)
     product.save()
 
     return HttpResponseRedirect(reverse_lazy("products:list-product"))

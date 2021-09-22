@@ -4,9 +4,11 @@ from django.utils.text import slugify
 from django.db.models.signals import pre_save, post_save
 from django.utils.timesince import timesince
 from django.urls import reverse
+from accounts.models import Account
 
 
 # Create your models here.
+
 
 CATEGORIES = [
     ("computers", "Computers"),
@@ -56,6 +58,10 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     # email = models.EmailField()
     slug = models.SlugField(null=True, blank=True)
+    user = models.ForeignKey(
+        Account, on_delete=models.DO_NOTHING, related_name='product')
+
+    author = models.ManyToManyField('Author')
 
     objects = ProductModelManager()
     # products = ProductModelManager()
@@ -104,3 +110,11 @@ def product_post_save_receiver(sender, instance, created, *args, **kwargs):
 
 
 post_save.connect(product_post_save_receiver, sender=Product)
+
+
+class Author(models.Model):
+    name = models.CharField(max_length=150)
+    eduction = models.CharField(max_length=150)
+
+    class Meta:
+        db_table = 'author'

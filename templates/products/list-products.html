@@ -18,6 +18,7 @@
       <p class="card-text">Quantity: {{product.quantity}}</p>
       <p class="card-text">Time Stamp: {{product.created|date:"Y"}}</p>
       <p class="card-text">Added On: {{product.added_on}}</p>
+      <p class="card-text">Added By: {{product.user.email}}</p>
       <a
         href="{% url 'products:delete-product' product.id %}"
         class="btn btn-danger"

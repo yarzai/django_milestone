@@ -1,8 +1,10 @@
 from django.contrib import admin
 from django.utils.timesince import timesince
-from products.models import Product
+from products.models import Product, Author
 
 # Register your models here.
+
+admin.site.register(Author)
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -14,14 +16,12 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ["is_availible", "code"]
     # save_as_continue = False
 
-    
     fields = ["name", "price", "code",
-                    "quantity", "is_availible","updated", "created", "added_on" ]
+              "quantity", "is_availible", "updated", "created", "added_on", 'user', 'author']
     readonly_fields = ["updated", "created", "added_on"]
 
     # def added_on(self, instance, *args, **kwargs):
     #     return instance.added_on
-
 
 
 admin.site.register(Product, ProductAdmin)

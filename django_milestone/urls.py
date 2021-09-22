@@ -28,6 +28,7 @@ urlpatterns = [
     path("products/", include("products.urls")),
     path("exercise/", include("exercise.urls")),
     path("accounts/", include("accounts.urls")),
+    path("api/", include("api.urls")),
     path("", home)
 ]
 

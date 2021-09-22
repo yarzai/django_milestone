@@ -10,6 +10,8 @@ User = get_user_model()
 
 
 def user_login(request):
+    if request.user.is_authenticated:
+        return redirect(reverse_lazy("products:list-product"))
     if request.method == 'GET':
         return render(request, 'accounts/login.html')
 
