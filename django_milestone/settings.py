@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'localhost']
 # ALLOWED_HOSTS = ["*"]
 
 Article_link = 'https://medium.com/geekculture/how-to-deploy-a-django-app-on-heroku-4d696b458272'
+PROJECT_URL = 'https://django-milestone-app.herokuapp.com/'
 
 
 # Application definition
