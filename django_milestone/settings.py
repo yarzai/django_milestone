@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import dj_database_url
 from pathlib import Path
 import os
 
@@ -26,7 +27,10 @@ SECRET_KEY = '#ljos+96460qew*bfdgi-**1hf__%@^r905nk1!+d8a5$ai2h1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'localhost']
+# ALLOWED_HOSTS = ["*"]
+
+Article_link = 'https://medium.com/geekculture/how-to-deploy-a-django-app-on-heroku-4d696b458272'
 
 
 # Application definition
@@ -41,11 +45,14 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
+    'whitenoise.runserver_nostatic',
+
     'corsheaders',
 
     "products",
     'exercise',
     'accounts'
+
 ]
 
 MIDDLEWARE = [
@@ -57,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -90,10 +98,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'd_m',
         "USER": "postgres",
-        "PASSWORD": "postgres"
+        "PASSWORD": "postgres",
+        "HOST": 'localhost'
     },
 
 }
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 AUTH_USER_MODEL = 'accounts.Account'
 LOGIN_URL = '/accounts/login/'
@@ -142,6 +154,7 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static_serve")
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
 

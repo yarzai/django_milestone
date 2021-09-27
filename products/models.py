@@ -59,7 +59,7 @@ class Product(models.Model):
     # email = models.EmailField()
     slug = models.SlugField(null=True, blank=True)
     user = models.ForeignKey(
-        Account, on_delete=models.DO_NOTHING, related_name='product')
+        Account, on_delete=models.DO_NOTHING, related_name='product', null=True, blank=True)
 
     author = models.ManyToManyField('Author')
 
